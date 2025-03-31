@@ -9,13 +9,13 @@ import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
-    BindingComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
-  ],
+    FormsModule,
+    BindingComponent
+],
   providers: [
     provideClientHydration()
   ],

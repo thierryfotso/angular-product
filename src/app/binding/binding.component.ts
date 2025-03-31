@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-binding',
+  standalone: true,
+  imports: [FormsModule],
   templateUrl: './binding.component.html',
   styles: ``,
 })
@@ -15,6 +18,6 @@ export class BindingComponent implements OnInit {
   ngOnInit(): void {}
 
   changeTitle(): void {
-    this.title="New title";
+    this.title = "New title";
   }
 }
