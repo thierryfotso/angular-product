@@ -18,4 +18,12 @@ export class ProductsComponent implements OnInit {
   ngOnInit(): void {
     this.products = this.productService.getProducts();
   }
+
+  deleteProduct(product: Product) {
+    const isConfirm= confirm("Etes-vous sûr ?");
+    if(isConfirm){
+      this.productService.deleteProduct(product);
+      console.log('Product to delete:', product);
+    }
+  }
 }

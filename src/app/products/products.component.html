@@ -25,6 +25,7 @@
               <td>{{product.productName}}</td>
               <td>{{product.productPrice}}</td>
               <td>{{product.creationDate | date:'dd/MM/yyyy' }}</td>
+              <td><a class="btn btn-danger" (click)="deleteProduct(product)" >Supprimer</a></td>
             </tr>
           </tbody>
           @if(last){
