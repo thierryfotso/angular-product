@@ -26,8 +26,9 @@ export class ProductsService {
     return this.httpClient.get<Product[]>(this.apiURL);
   }
 
-  getProduct(id: number): Product {
-    return this.products.find((p) => p.productId == id)!;
+  getProduct(productId: number): Observable<Product> {
+    const getURL = `${this.apiURL}/${productId}`;
+    return this.httpClient.get<Product>(getURL);
   }
 
   addproduct(product: Product): Observable<Product> {
@@ -39,19 +40,19 @@ export class ProductsService {
     return this.httpClient.delete<Product>(deleteURL, httpOptions);
   }
 
-  updateProduct(productToUpdate: Product) {
-    const indexToDelete = this.products.indexOf(productToUpdate, 0);
-    if (indexToDelete > -1) {
-      this.products.splice(indexToDelete, 1);
-      this.products.splice(indexToDelete, 0, productToUpdate);
-    }
+  updateProduct(productToUpdate: Product): Observable<Product> {
+    return this.httpClient.put<Product>(
+      this.apiURL,
+      productToUpdate,
+      httpOptions
+    );
   }
 
   getCategories(): Category[] {
     return this.categories;
   }
 
-  getCategory(id?: number): Category {
+  getCategory(id: number): Category {
     return this.categories.find((cat) => cat.id == id)!;
   }
 }
