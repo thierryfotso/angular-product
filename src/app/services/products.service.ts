@@ -13,13 +13,9 @@ const httpOptions = {
 export class ProductsService {
   apiURL: string = 'http://localhost:8080/products/api';
   products: Product[] = [];
-  categories: Category[];
+  categories: Category[] = [];
 
   constructor(private httpClient: HttpClient) {
-    this.categories = [
-      { id: 1, name: 'PC' },
-      { id: 2, name: 'Imprimante' },
-    ];
   }
 
   getProducts(): Observable<Product[]> {
@@ -48,8 +44,8 @@ export class ProductsService {
     );
   }
 
-  getCategories(): Category[] {
-    return this.categories;
+  getCategories(): Observable<Category[]> {
+    return this.httpClient.get<Category[]>(this.apiURL + '/category');
   }
 
   getCategory(id: number): Category {

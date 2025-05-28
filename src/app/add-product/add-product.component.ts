@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class AddProductComponent implements OnInit {
   newProduct = new Product();
-  newIdCategory!:number;
+  newIdCategory!: number;
   newCategory = new Category();
   categories: Category[] = [];
 
@@ -24,11 +24,13 @@ export class AddProductComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.categories = this.productService.getCategories();
+    this.productService.getCategories().subscribe((result) => {
+      this.categories = result;
+    });
   }
 
   addProduct() {
-    this.newCategory = this.productService.getCategory(this.newIdCategory);
+    this.newProduct.category = this.categories.find(cat => cat.id == this.newIdCategory);
     this.productService.addproduct(this.newProduct).subscribe((result) => {
       console.log('product added:', result);
       this.router.navigate(['products']);
