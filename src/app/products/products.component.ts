@@ -17,14 +17,25 @@ export class ProductsComponent implements OnInit {
   constructor(private productService: ProductsService) {}
 
   ngOnInit(): void {
-    this.products = this.productService.getProducts();
+    this.loadProduct();
+  }
+
+  loadProduct() {
+    this.productService.getProducts().subscribe((result) => {
+      console.log('result:', result);
+      this.products = result;
+    });
   }
 
   deleteProduct(product: Product) {
     const isConfirm = confirm('Etes-vous sûr ?');
-    if (isConfirm) {
-      this.productService.deleteProduct(product);
-      console.log('Product to delete:', product);
+    if (isConfirm && product.productId) {
+      this.productService
+        .deleteProduct(product.productId)
+        .subscribe((result) => {
+          console.log('Product to delete: ', product);
+          this.loadProduct();
+        });
     }
   }
 }
