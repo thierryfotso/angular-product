@@ -21,8 +21,8 @@ export class ProductsComponent implements OnInit {
   }
 
   deleteProduct(product: Product) {
-    const isConfirm= confirm("Etes-vous sûr ?");
-    if(isConfirm){
+    const isConfirm = confirm('Etes-vous sûr ?');
+    if (isConfirm) {
       this.productService.deleteProduct(product);
       console.log('Product to delete:', product);
     }

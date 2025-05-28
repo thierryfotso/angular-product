@@ -11,6 +11,7 @@
                 <th>Nom</th>
                 <th>Prix</th>
                 <th>Date Création</th>
+                <th>Catégorie</th>
               </tr>
           </thead>
         }
@@ -25,6 +26,7 @@
               <td>{{product.productName}}</td>
               <td>{{product.productPrice}}</td>
               <td>{{product.creationDate | date:'dd/MM/yyyy' }}</td>
+              <td>{{product.category?.name}}</td>
               <td><a class="btn btn-danger" (click)="deleteProduct(product)" >Supprimer</a></td>
               <td><a class="btn btn-success" [routerLink]="['/updateProduct', product.productId]" routerLinkActive="router-link-active"  >
                 Modifier</a></td>

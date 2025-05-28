@@ -1,31 +1,40 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../model/product.model';
+import { Category } from '../model/category.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
   products: Product[];
+  categories: Category[];
 
   constructor() {
+    this.categories = [
+      { id: 1, name: 'PC' },
+      { id: 2, name: 'Imprimante' },
+    ];
     this.products = [
       {
         productId: 1,
         productName: 'PC Asus',
         productPrice: 3000,
         creationDate: new Date('01/14/2011'),
+        category: { id: 1, name: 'PC' },
       },
       {
         productId: 2,
         productName: 'Imprimante Epson',
         productPrice: 450,
         creationDate: new Date('12/17/2010'),
+        category: { id: 2, name: 'Imprimante' },
       },
       {
         productId: 3,
         productName: 'Tablette Samsung',
         productPrice: 900.123,
         creationDate: new Date('02/20/2020'),
+        category: { id: 1, name: 'PC' },
       },
     ];
   }
@@ -35,7 +44,7 @@ export class ProductsService {
   }
 
   getProduct(id: number): Product {
-    return this.products.find(p => p.productId == id)!;
+    return this.products.find((p) => p.productId == id)!;
   }
 
   addproduct(product: Product) {
@@ -49,12 +58,19 @@ export class ProductsService {
     }
   }
 
-  updateProduct(productToUpdate:Product) {
-    const indexToDelete=this.products.indexOf(productToUpdate,0);
-    if(indexToDelete>-1){
+  updateProduct(productToUpdate: Product) {
+    const indexToDelete = this.products.indexOf(productToUpdate, 0);
+    if (indexToDelete > -1) {
       this.products.splice(indexToDelete, 1);
       this.products.splice(indexToDelete, 0, productToUpdate);
     }
   }
 
+  getCategories(): Category[] {
+    return this.categories;
+  }
+
+  getCategory(id?: number): Category {
+    return this.categories.find((cat) => cat.id == id)!;
+  }
 }
