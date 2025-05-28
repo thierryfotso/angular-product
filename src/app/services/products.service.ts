@@ -1,8 +1,10 @@
+import { CAT_API_URL } from './../config';
 import { Injectable } from '@angular/core';
 import { Product } from '../model/product.model';
 import { Category } from '../model/category.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_URL } from '../config';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -11,41 +13,35 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class ProductsService {
-  apiURL: string = 'http://localhost:8080/products/api';
   products: Product[] = [];
   categories: Category[] = [];
 
-  constructor(private httpClient: HttpClient) {
-  }
+  constructor(private httpClient: HttpClient) {}
 
   getProducts(): Observable<Product[]> {
-    return this.httpClient.get<Product[]>(this.apiURL);
+    return this.httpClient.get<Product[]>(API_URL);
   }
 
   getProduct(productId: number): Observable<Product> {
-    const getURL = `${this.apiURL}/${productId}`;
+    const getURL = `${API_URL}/${productId}`;
     return this.httpClient.get<Product>(getURL);
   }
 
   addproduct(product: Product): Observable<Product> {
-    return this.httpClient.post<Product>(this.apiURL, product, httpOptions);
+    return this.httpClient.post<Product>(API_URL, product, httpOptions);
   }
 
   deleteProduct(productId: number): Observable<Product> {
-    const deleteURL = `${this.apiURL}/${productId}`;
+    const deleteURL = `${API_URL}/${productId}`;
     return this.httpClient.delete<Product>(deleteURL, httpOptions);
   }
 
   updateProduct(productToUpdate: Product): Observable<Product> {
-    return this.httpClient.put<Product>(
-      this.apiURL,
-      productToUpdate,
-      httpOptions
-    );
+    return this.httpClient.put<Product>(API_URL, productToUpdate, httpOptions);
   }
 
   getCategories(): Observable<Category[]> {
-    return this.httpClient.get<Category[]>(this.apiURL + '/category');
+    return this.httpClient.get<Category[]>(CAT_API_URL);
   }
 
   getCategory(id: number): Category {
