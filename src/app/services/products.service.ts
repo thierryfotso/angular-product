@@ -34,14 +34,26 @@ export class ProductsService {
     return this.products;
   }
 
+  getProduct(id: number): Product {
+    return this.products.find(p => p.productId == id)!;
+  }
+
   addproduct(product: Product) {
     this.products.push(product);
   }
 
   deleteProduct(product: Product) {
     const indexToDelete = this.products.indexOf(product, 0);
-    if(indexToDelete> -1){
-      this.products.splice(indexToDelete,1);
+    if (indexToDelete > -1) {
+      this.products.splice(indexToDelete, 1);
+    }
+  }
+
+  updateProduct(productToUpdate:Product) {
+    const indexToDelete=this.products.indexOf(productToUpdate,0);
+    if(indexToDelete>-1){
+      this.products.splice(indexToDelete, 1);
+      this.products.splice(indexToDelete, 0, productToUpdate);
     }
   }
 

@@ -26,11 +26,10 @@
               <td>{{product.productPrice}}</td>
               <td>{{product.creationDate | date:'dd/MM/yyyy' }}</td>
               <td><a class="btn btn-danger" (click)="deleteProduct(product)" >Supprimer</a></td>
+              <td><a class="btn btn-success" [routerLink]="['/updateProduct', product.productId]" routerLinkActive="router-link-active"  >
+                Modifier</a></td>
             </tr>
           </tbody>
-          @if(last){
-            <h1>Nombre: {{nbr}}</h1>
-          }
           }
           @empty {
             <h1>Aucun produit trouvé</h1>
