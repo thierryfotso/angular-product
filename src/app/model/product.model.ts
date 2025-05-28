@@ -1,8 +1,8 @@
 import { Category } from './category.model';
 export class Product {
   productId?: number;
-  productName?: string;
-  productPrice?: number;
+  name?: string;
+  price?: number;
   creationDate?: Date;
   category?: Category
 }
