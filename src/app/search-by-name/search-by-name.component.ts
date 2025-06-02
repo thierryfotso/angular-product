@@ -4,11 +4,12 @@ import { Category } from '../model/category.model';
 import { ProductsService } from '../services/products.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SearchFilterPipe } from '../search-filter.pipe';
 
 @Component({
   selector: 'app-search-by-name',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SearchFilterPipe] ,
   templateUrl: './search-by-name.component.html',
   styleUrl: './search-by-name.component.css',
 })
@@ -16,11 +17,16 @@ export class SearchByNameComponent {
   products!: Product[];
   allProducts!: Product[];
   productName!: string;
+  searchTerm!: string;
 
   constructor(private productService: ProductsService) {}
 
   ngOnInit(): void {
-    this.products = [];
+    //this.products =[];
+    this.productService.getProducts().subscribe((p) => {
+      this.products = p;
+      console.log("products:",this.products);
+    });
     this.allProducts = [];
     this.productService.getProducts().subscribe((result) => {
       this.allProducts = result;

@@ -8,17 +8,24 @@
     </div>
   </form>
  -->
-  <form class="form-inline">
+<!--   <form class="form-inline">
     <div class="form-group mx-sm-3 mb-2 mt-2 ">
       <label>Nom du produit:</label>
       <input class="form-control" #searchTerm (keyup)="onKeyUp(searchTerm.value)">
+    </div>
+  </form>
+ -->
+  <form class="form-inline">
+    <div class="form-group mx-sm-3 mb-2 mt-2 ">
+      <label>Nom du produit:</label>
+      <input [(ngModel)]="searchTerm" name="searchTerm" class="form-control"  >
     </div>
   </form>
 
   <div class="card shadow mb-4">
     <div class="card-body">
       <table class="table table-striped">
-        @if(products.length!=0)
+        @if(products && products.length!=0)
         {
           <thead>
               <tr>
@@ -31,7 +38,8 @@
               </tr>
           </thead>
         }
-        @for (product of products; track product; let index=$index; let nbr=$count; let first = $first; let last= $last){
+        @for (product of products| searchFilter: searchTerm; track product; let index=$index; let nbr=$count; let first =
+        $first; let last= $last){
           @if(first){
             <h3>Nombre: {{nbr}}</h3>
           }
