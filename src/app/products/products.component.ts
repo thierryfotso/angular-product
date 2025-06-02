@@ -31,8 +31,7 @@ export class ProductsComponent implements OnInit {
     if (isConfirm && product.productId) {
       this.productService
         .deleteProduct(product.productId)
-        .subscribe((result) => {
-          console.log('Product to delete: ', product);
+        .subscribe(result => {
           this.loadProduct();
         });
     }

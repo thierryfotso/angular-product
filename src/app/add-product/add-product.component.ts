@@ -32,7 +32,6 @@ export class AddProductComponent implements OnInit {
   addProduct() {
     this.newProduct.category = this.categories.find(cat => cat.id == this.newIdCategory);
     this.productService.addproduct(this.newProduct).subscribe((result) => {
-      console.log('product added:', result);
       this.router.navigate(['products']);
     });
   }
