@@ -27,7 +27,11 @@ export class ProductsService {
   }
 
   addproduct(product: Product): Observable<Product> {
-    return this.httpClient.post<Product>(environment.API_URL, product, httpOptions);
+    return this.httpClient.post<Product>(
+      environment.API_URL,
+      product,
+      httpOptions
+    );
   }
 
   deleteProduct(productId: number): Observable<Product> {
@@ -36,7 +40,11 @@ export class ProductsService {
   }
 
   updateProduct(productToUpdate: Product): Observable<Product> {
-    return this.httpClient.put<Product>(environment.API_URL, productToUpdate, httpOptions);
+    return this.httpClient.put<Product>(
+      environment.API_URL,
+      productToUpdate,
+      httpOptions
+    );
   }
 
   getCategories(): Observable<Category[]> {
@@ -45,5 +53,10 @@ export class ProductsService {
 
   getCategory(id: number): Category {
     return this.categories.find((cat) => cat.id == id)!;
+  }
+
+  searchByCategory(idCategory: number): Observable<Product[]> {
+    const searchByCategoryUrl = `${environment.API_URL}/prodscat/${idCategory}`;
+    return this.httpClient.get<Product[]>(searchByCategoryUrl);
   }
 }
