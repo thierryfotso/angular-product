@@ -1,13 +1,19 @@
 <div class="container">
 
-  <form class="form-inline">
+<!--   <form class="form-inline">
     <div class="form-group mx-sm-3 mb-2 mt-2 ">
       <label>Nom Produit: </label>
       <input type="text" class="form-control" [(ngModel)]="productName" name="productName" class="form-control">
       <button type="submit" (click)="searchProductByName()" class="btn btn-primary mb-2 ml-2">Rechercher</button>
     </div>
   </form>
-
+ -->
+  <form class="form-inline">
+    <div class="form-group mx-sm-3 mb-2 mt-2 ">
+      <label>Nom du produit:</label>
+      <input class="form-control" #searchTerm (keyup)="onKeyUp(searchTerm.value)">
+    </div>
+  </form>
 
   <div class="card shadow mb-4">
     <div class="card-body">

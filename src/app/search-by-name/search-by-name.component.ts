@@ -13,12 +13,19 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './search-by-name.component.css',
 })
 export class SearchByNameComponent {
-  products: Product[] = [];
+  products!: Product[];
+  allProducts!: Product[];
   productName!: string;
 
   constructor(private productService: ProductsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.products = [];
+    this.allProducts = [];
+    this.productService.getProducts().subscribe((result) => {
+      this.allProducts = result;
+    });
+  }
 
   searchProductByName() {
     if (this.productName) {
@@ -30,5 +37,11 @@ export class SearchByNameComponent {
         this.products = result;
       });
     }
+  }
+
+  onKeyUp(filterText: string) {
+    this.products = this.allProducts.filter((p) =>
+      p.name?.toLowerCase().includes(filterText)
+    );
   }
 }
