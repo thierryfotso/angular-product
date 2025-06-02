@@ -64,4 +64,12 @@ export class ProductsService {
     const searchByNameUrl = `${environment.API_URL}/prodsByName/${productName}`;
     return this.httpClient.get<Product[]>(searchByNameUrl);
   }
+
+  addCategory(category: Category): Observable<Category> {
+    return this.httpClient.post<Category>(
+      environment.CAT_API_URL,
+      category,
+      httpOptions
+    );
+  }
 }

@@ -32,7 +32,7 @@ export class UpdateProductComponent implements OnInit {
     const productId = this.activatedRoute.snapshot.params['id'];
     this.productService.getProduct(productId).subscribe((result) => {
       this.currentProduct = result;
-      this.updateCatId = this.currentProduct.category?.id;
+      this.updateCatId = this.currentProduct.category?.id!;
     });
   }
 

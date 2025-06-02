@@ -1,0 +1,14 @@
+<form>
+  <div [hidden]="isAdd">
+    <label>ID Catégorie:</label>
+    <input type="text" [(ngModel)]="category.id" name="id" class="form-control w-25" >
+  </div>
+  <div>
+    <label>Nom Catégorie:</label>
+    <input type="text" [(ngModel)]="category.name" name="name" class="form-control"
+      placeholder="Entrez un nom de catégorie...">
+  </div>
+  <div class="mt-2">
+    <button type="submit" [disabled]="!category.name" class="btn btn-success" (click)="saveCategory()">{{isAdd ? 'Ajouter':'Modifier' }}</button>
+  </div>
+</form>

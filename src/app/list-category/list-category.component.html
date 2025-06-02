@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
+    <app-update-category [category]="updateCategory" [isAdd]="isAdd"
+      (categoryUpdated)="addCategory($event)"
+    ></app-update-category>
+  </div>
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nom Catégorie</th>
+          </tr>
+        </thead>
+        @for(cat of categories; track cat.id)
+        {
+        <tbody>
+          <tr>
+            <td>{{cat.id}}</td>
+            <td>{{cat.name}}</td>
+            <td><a class="btn btn-success" (click)="updateCat(cat)">Editer</a></td>
+          </tr>
+        </tbody>
+        }
+      </table>
+    </div>
+  </div>
+</div>
