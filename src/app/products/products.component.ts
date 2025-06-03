@@ -1,3 +1,4 @@
+import { AuthService } from './../services/auth.service';
 import { ProductsService } from './../services/products.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
@@ -14,7 +15,10 @@ import { RouterLink } from '@angular/router';
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
 
-  constructor(private productService: ProductsService) {}
+  constructor(
+    private productService: ProductsService,
+    public authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.loadProduct();
@@ -31,7 +35,7 @@ export class ProductsComponent implements OnInit {
     if (isConfirm && product.productId) {
       this.productService
         .deleteProduct(product.productId)
-        .subscribe(result => {
+        .subscribe((result) => {
           this.loadProduct();
         });
     }

@@ -27,9 +27,12 @@
               <td>{{product.price}}</td>
               <td>{{product.creationDate | date:'dd/MM/yyyy' }}</td>
               <td>{{product.category?.name}}</td>
-              <td><a class="btn btn-danger" (click)="deleteProduct(product)" >Supprimer</a></td>
-              <td><a class="btn btn-success" [routerLink]="['/updateProduct', product.productId]" routerLinkActive="router-link-active"  >
-                Modifier</a></td>
+              @if(authService.isAdmin()){
+              <td><a class="btn btn-danger" (click)="deleteProduct(product)">Supprimer</a></td>
+              <td><a class="btn btn-success" [routerLink]="['/updateProduct', product.productId]"
+                  routerLinkActive="router-link-active">
+                  Modifier</a></td>
+              }
             </tr>
           </tbody>
           }

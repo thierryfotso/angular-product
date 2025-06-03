@@ -5,6 +5,7 @@ import { UpdateProductComponent } from './update-product/update-product.componen
 import { SearchByCategoryComponent } from './search-by-category/search-by-category.component';
 import { SearchByNameComponent } from './search-by-name/search-by-name.component';
 import { ListCategoryComponent } from './list-category/list-category.component';
+import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
   { path: 'products', component: ProductsComponent },
@@ -13,5 +14,6 @@ export const routes: Routes = [
   { path: 'searchProductByCategory', component: SearchByCategoryComponent },
   { path: 'searchProductByName', component: SearchByNameComponent },
   { path: 'listCategory', component: ListCategoryComponent },
+  { path: 'login', component: LoginComponent },
   { path: '', redirectTo: 'products', pathMatch: 'full' },
 ];

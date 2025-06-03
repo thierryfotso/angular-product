@@ -1,3 +1,4 @@
+import { AuthService } from './services/auth.service';
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
@@ -10,4 +11,11 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'angular-product';
+
+  constructor(public authService:AuthService){
+  }
+
+  onLogout(){
+    this.authService.logout();
+  }
 }
