@@ -58,4 +58,18 @@ export class AuthService {
     localStorage.setItem('isLoggedIn', String(this.isloggedIn));
     this.router.navigate(['/login']);
   }
+
+  setLoggedUserFromLocalStorage(login: string) {
+    this.loggedUser = login;
+    this.isloggedIn = true;
+    this.getUserRoles(login);
+  }
+
+  getUserRoles(username: string) {
+    this.users.forEach((curUser) => {
+      if (curUser.username == username) {
+        this.roles = curUser.roles;
+      }
+    });
+  }
 }
