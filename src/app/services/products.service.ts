@@ -13,7 +13,6 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class ProductsService {
-
   categories: Category[] = [];
 
   constructor(
@@ -22,49 +21,43 @@ export class ProductsService {
   ) {}
 
   getProducts(): Observable<Product[]> {
-    const jwt = 'Bearer ' + this.authService.getToken();
-    const httpHeaders = new HttpHeaders({ Authorization: jwt });
-    return this.httpClient.get<Product[]>(environment.API_URL + '/all', {
-      headers: httpHeaders,
-    });
+    return this.httpClient.get<Product[]>(
+      environment.API_URL + '/all',
+      httpOptions
+    );
   }
 
   getProduct(productId: number): Observable<Product> {
-    const jwt = 'Bearer ' + this.authService.getToken();
-    const httpHeaders = new HttpHeaders({ Authorization: jwt });
     const getURL = `${environment.API_URL}/${productId}`;
-    return this.httpClient.get<Product>(getURL, { headers: httpHeaders });
+    return this.httpClient.get<Product>(getURL, httpOptions);
   }
 
   addproduct(product: Product): Observable<Product> {
-    const jwt = 'Bearer ' + this.authService.getToken();
-    const httpHeaders = httpOptions.headers.append('Authorization', jwt);
-    return this.httpClient.post<Product>(environment.API_URL+"/addProduct", product, {
-      headers: httpHeaders,
-    });
+    return this.httpClient.post<Product>(
+      environment.API_URL + '/addProduct',
+      product,
+      httpOptions
+    );
   }
 
   deleteProduct(productId: number): Observable<Product> {
-    const jwt = 'Bearer ' + this.authService.getToken();
-    const httpHeaders = httpOptions.headers.append('Authorization', jwt);
     const deleteURL = `${environment.API_URL}/${productId}`;
-    return this.httpClient.delete<Product>(deleteURL, { headers: httpHeaders });
+    return this.httpClient.delete<Product>(deleteURL, httpOptions);
   }
 
   updateProduct(productToUpdate: Product): Observable<Product> {
-    const jwt = 'Bearer ' + this.authService.getToken();
-    const httpHeaders = httpOptions.headers.append('Authorization', jwt);
-    return this.httpClient.put<Product>(environment.API_URL+"/updateProduct", productToUpdate, {
-      headers: httpHeaders,
-    });
+    return this.httpClient.put<Product>(
+      environment.API_URL + '/updateProduct',
+      productToUpdate,
+      httpOptions
+    );
   }
 
   getCategories(): Observable<Category[]> {
-    const jwt = 'Bearer ' + this.authService.getToken();
-    const httpHeaders = new HttpHeaders({ Authorization: jwt });
-    return this.httpClient.get<Category[]>(environment.CAT_API_URL, {
-      headers: httpHeaders,
-    });
+    return this.httpClient.get<Category[]>(
+      environment.CAT_API_URL,
+      httpOptions
+    );
   }
 
   getCategory(id: number): Category {
@@ -72,26 +65,20 @@ export class ProductsService {
   }
 
   searchByCategory(idCategory: number): Observable<Product[]> {
-    const jwt = 'Bearer ' + this.authService.getToken();
-    const httpHeaders = new HttpHeaders({ Authorization: jwt });
     const searchByCategoryUrl = `${environment.API_URL}/prodscat/${idCategory}`;
-    return this.httpClient.get<Product[]>(searchByCategoryUrl, {
-      headers: httpHeaders
-    });
+    return this.httpClient.get<Product[]>(searchByCategoryUrl, httpOptions);
   }
 
   searchByName(productName: string): Observable<Product[]> {
-    const jwt = 'Bearer ' + this.authService.getToken();
-    const httpHeaders = new HttpHeaders({ Authorization: jwt });
     const searchByNameUrl = `${environment.API_URL}/prodsByName/${productName}`;
-    return this.httpClient.get<Product[]>(searchByNameUrl,{headers: httpHeaders});
+    return this.httpClient.get<Product[]>(searchByNameUrl, httpOptions);
   }
 
   addCategory(category: Category): Observable<Category> {
-    const jwt = 'Bearer ' + this.authService.getToken();
-    const httpHeaders = httpOptions.headers.append('Authorization', jwt);
-    return this.httpClient.post<Category>(environment.CAT_API_URL, category, {
-      headers: httpHeaders,
-    });
+    return this.httpClient.post<Category>(
+      environment.CAT_API_URL,
+      category,
+      httpOptions
+    );
   }
 }

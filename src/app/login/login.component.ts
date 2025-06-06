@@ -23,8 +23,8 @@ export class LoginComponent implements OnInit {
   onLogin(): void {
     this.authService.login(this.user).subscribe({
       next: (data) => {
-        console.log('response:',data);
-        let jwtToken = data.headers.get('Authorization')!;
+        console.log('response:', data);
+        const jwtToken = data.headers.get('Authorization')!;
         this.authService.saveToken(jwtToken);
         this.router.navigate(['/']);
       },
@@ -32,8 +32,5 @@ export class LoginComponent implements OnInit {
         this.error = 1;
       },
     });
-
   }
-
-
 }
