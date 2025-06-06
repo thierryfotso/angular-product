@@ -21,12 +21,18 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   onLogin(): void {
-    const validUser = this.authService.signIn(this.user);
-    if (validUser) {
-      this.router.navigate(['']);
-    } else {
-      this.error = 1;
-    }
+    this.authService.login(this.user).subscribe({
+      next: (data) => {
+        console.log('response:',data);
+        let jwtToken = data.headers.get('Authorization')!;
+        this.authService.saveToken(jwtToken);
+        this.router.navigate(['/']);
+      },
+      error: (error: any) => {
+        this.error = 1;
+      },
+    });
+
   }
 
 

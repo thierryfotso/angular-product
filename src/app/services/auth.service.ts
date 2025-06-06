@@ -1,38 +1,60 @@
 import { Injectable } from '@angular/core';
 import { User } from '../model/user.model';
 import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  users: User[] = [
-    { username: 'admin', password: '123', roles: ['ADMIN'] },
-    { username: 'tfotso', password: '123', roles: ['USER'] },
-  ];
-
+  private jwtHelperService = new JwtHelperService();
+  private jwtToken!: string;
   private loggedUser!: string;
   private isloggedIn: Boolean = false;
   private roles!: string[];
 
-  constructor(private router: Router) {}
+  constructor(private httpClient: HttpClient, private router: Router) {}
 
-  signIn(user: User): Boolean {
-    let validUser: Boolean = false;
-    this.users.forEach((currentUser) => {
-      if (
-        currentUser.username == user.username &&
-        currentUser.password == user.password
-      ) {
-        validUser = true;
-        this.loggedUser = currentUser.username;
-        this.roles = currentUser.roles;
-        this.isloggedIn = true;
-        localStorage.setItem('loggedUser', this.loggedUser);
-        localStorage.setItem('isLoggedIn', String(this.isloggedIn));
-      }
+  public login(user: User) {
+    return this.httpClient.post<User>(environment.LOGIN_API_URL, user, {
+      observe: 'response',
     });
-    return validUser;
+  }
+
+  public saveToken(token: string) {
+    localStorage.setItem('jwt', token);
+    this.jwtToken = token;
+    this.isloggedIn = true;
+    this.decodeJwt();
+  }
+
+  loadToken() {
+    this.jwtToken = localStorage.getItem('jwt')!;
+    this.decodeJwt();
+  }
+
+  public getToken(): string {
+    return this.jwtToken;
+  }
+
+  public isExpired(): boolean {
+    return this.jwtHelperService.isTokenExpired(this.jwtToken);
+  }
+
+  private decodeJwt() {
+    if (this.jwtToken == undefined) {
+      return;
+    }
+    const decodedToken = this.jwtHelperService.decodeToken(this.jwtToken);
+    this.roles = decodedToken.roles;
+    this.loggedUser = decodedToken.sub;
+    this.isloggedIn = true;
   }
 
   public getLoggedUsername(): string {
@@ -47,29 +69,17 @@ export class AuthService {
     if (!this.roles) {
       return false;
     }
-    return this.roles.indexOf('ADMIN') > -1;
+    return this.roles.indexOf('ADMIN') >= 0;
   }
 
   public logout() {
     this.isloggedIn = false;
     this.loggedUser = undefined!;
     this.roles = undefined!;
+    this.jwtToken = undefined!;
     localStorage.removeItem('loggedUser');
-    localStorage.setItem('isLoggedIn', String(this.isloggedIn));
+    localStorage.removeItem('jwt');
     this.router.navigate(['/login']);
   }
 
-  setLoggedUserFromLocalStorage(login: string) {
-    this.loggedUser = login;
-    this.isloggedIn = true;
-    this.getUserRoles(login);
-  }
-
-  getUserRoles(username: string) {
-    this.users.forEach((curUser) => {
-      if (curUser.username == username) {
-        this.roles = curUser.roles;
-      }
-    });
-  }
 }

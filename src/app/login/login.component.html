@@ -1,12 +1,9 @@
 <div class="container mt-5">
   <div class="row justify-content-md-center">
     <div class="col-md-4">
-      @if(error==1)
-      {
-      <div class="alert alert-danger">
+      <div class="alert alert-danger" *ngIf="error==1">
         <strong>login et/ou mot de passe erronés...</strong>
       </div>
-      }
       <form>
         <div class="form-group">
           <label>Nom Utilisateur :</label>
