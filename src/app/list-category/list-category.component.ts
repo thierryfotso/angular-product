@@ -29,9 +29,7 @@ export class ListCategoryComponent implements OnInit {
 
   addCategory(category: Category) {
     this.isAdd = true;
-    console.log('received Catgory:', this.updateCategory);
     this.productService.addCategory(category).subscribe((result) => {
-      console.log('result categories:', this.categories);
       this.loadCategory();
     });
   }

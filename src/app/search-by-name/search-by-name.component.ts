@@ -22,10 +22,8 @@ export class SearchByNameComponent {
   constructor(private productService: ProductsService) {}
 
   ngOnInit(): void {
-    //this.products =[];
     this.productService.getProducts().subscribe((p) => {
       this.products = p;
-      console.log("products:",this.products);
     });
     this.allProducts = [];
     this.productService.getProducts().subscribe((result) => {

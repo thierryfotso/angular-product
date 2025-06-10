@@ -8,6 +8,8 @@ import { ListCategoryComponent } from './list-category/list-category.component';
 import { LoginComponent } from './login/login.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { productGuard } from './product.guard';
+import { RegisterComponent } from './register/register.component';
+import { VerifEmailComponent } from './verif-email/verif-email.component';
 
 export const routes: Routes = [
   { path: 'products', component: ProductsComponent },
@@ -21,6 +23,8 @@ export const routes: Routes = [
   { path: 'searchProductByName', component: SearchByNameComponent },
   { path: 'listCategory', component: ListCategoryComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'app-forbidden', component: ForbiddenComponent },
+  { path: 'verifEmail', component: VerifEmailComponent },
   { path: '', redirectTo: 'products', pathMatch: 'full' },
 ];

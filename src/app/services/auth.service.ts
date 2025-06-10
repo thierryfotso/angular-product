@@ -18,8 +18,16 @@ export class AuthService {
   private loggedUser!: string;
   private isloggedIn: Boolean = false;
   private roles!: string[];
+  public regitredUser: User = new User();
 
   constructor(private httpClient: HttpClient, private router: Router) {}
+
+  setRegistredUser(user: User) {
+    this.regitredUser = user;
+  }
+  getRegistredUser() {
+    return this.regitredUser;
+  }
 
   public login(user: User) {
     return this.httpClient.post<User>(environment.LOGIN_API_URL, user, {
@@ -82,4 +90,15 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
+  register(user: User) {
+    return this.httpClient.post<User>(environment.REGISTER_API_URL, user, {
+      observe: 'response',
+    });
+  }
+
+  validateEmail(code: string) {
+    return this.httpClient.get<User>(
+      environment.USER_API_URL + 'verifyEmail/' + code
+    );
+  }
 }
