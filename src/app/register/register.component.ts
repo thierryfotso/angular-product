@@ -17,6 +17,7 @@ export class RegisterComponent implements OnInit {
   confirmPassword?: string;
   myForm!: FormGroup;
   error!: string;
+  loading: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,13 +36,19 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegister() {
+    this.loading = true;
     this.authService.register(this.user).subscribe({
       next: (result) => {
         this.authService.setRegistredUser(this.user);
-        this.toastr.success('veillez confirmer votre email', 'Confirmer votre email');
+        this.loading = false;
+        this.toastr.success(
+          'veillez confirmer votre email',
+          'Confirmer votre email'
+        );
         this.router.navigate(['/verifEmail']);
       },
       error: (error: any) => {
+        this.loading = false;
         if (error.status == 400) {
           this.error = error.error.message;
         }
