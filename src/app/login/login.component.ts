@@ -14,7 +14,7 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   user = new User();
-  error = 0;
+  errorMessage?: string;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -28,7 +28,12 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/']);
       },
       error: (error: any) => {
-        this.error = 1;
+        if (error.error?.errorCode) {
+          this.errorMessage = error.error.message;
+        } else {
+          this.errorMessage = 'login et/ou mot de passe erronés...';
+        }
+        console.log('login error:', error);
       },
     });
   }

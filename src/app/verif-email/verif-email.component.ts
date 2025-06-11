@@ -43,10 +43,13 @@ export class VerifEmailComponent implements OnInit {
         });
       },
       error: (err: any) => {
-        if ((err.status = 400)) {
-          this.err = err.error.message;
+        if ((err.error.errorCode = 'INVALID_TOKEN')) {
+          this.err = 'Token non valid';
         }
-        console.log('Error:',err.error);
+        if ((err.error.errorCode = 'EXPIRED_TOKEN')) {
+          this.err = 'Token expiré';
+        }
+        console.log('Error:', err.error);
       },
     });
   }
