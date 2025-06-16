@@ -1,8 +1,11 @@
 import { Category } from './category.model';
+import { Image } from './image.model';
 export class Product {
-  productId?: number;
+  id?: number;
   name?: string;
   price?: number;
   creationDate?: Date;
-  category?: Category
+  category?: Category;
+  image!: Image;
+  imageStr!: string;
 }

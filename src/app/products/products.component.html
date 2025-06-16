@@ -12,6 +12,7 @@
                 <th>Prix</th>
                 <th>Date Création</th>
                 <th>Catégorie</th>
+                <th>Image</th>
               </tr>
           </thead>
         }
@@ -22,14 +23,16 @@
           <tbody>
             <tr>
               <td>{{index}}</td>
-              <td>{{product.productId}}</td>
+              <td>{{product.id}}</td>
               <td>{{product.name}}</td>
               <td>{{product.price}}</td>
               <td>{{product.creationDate | date:'dd/MM/yyyy' }}</td>
               <td>{{product.category?.name}}</td>
+              <td><img class="card-img-top img-responsive" src="{{product.imageStr}}" style="height :50px;width:100px">
+              </td>
               @if(authService.isAdmin()){
               <td><a class="btn btn-danger" (click)="deleteProduct(product)">Supprimer</a></td>
-              <td><a class="btn btn-success" [routerLink]="['/updateProduct', product.productId]"
+              <td><a class="btn btn-success" [routerLink]="['/updateProduct', product.id]"
                   routerLinkActive="router-link-active">
                   Modifier</a></td>
               }

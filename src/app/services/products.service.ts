@@ -5,6 +5,7 @@ import { Category } from '../model/category.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Image } from '../model/image.model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -80,5 +81,33 @@ export class ProductsService {
       category,
       httpOptions
     );
+  }
+
+  uploadImageProduct(
+    file: File,
+    filename: string,
+    idProd: number
+  ): Observable<any> {
+    const imageFormData = new FormData();
+    imageFormData.append('image', file, filename);
+    const url = `${environment.IMAGE_API_URL + '/uplaodImageProd'}/${idProd}`;
+    return this.httpClient.post(url, imageFormData);
+  }
+
+  uploadImage(file: File, filename: string): Observable<Image> {
+    const imageFormData = new FormData();
+    imageFormData.append('image', file, filename);
+    const url = `${environment.IMAGE_API_URL + '/upload'}`;
+    return this.httpClient.post<Image>(url, imageFormData);
+  }
+
+  loadImage(id: number): Observable<Image> {
+    const url = `${environment.IMAGE_API_URL + '/get/info'}/${id}`;
+    return this.httpClient.get<Image>(url);
+  }
+
+  deleteImage(id: number) {
+    const url = `${environment.IMAGE_API_URL}/delete/${id}`;
+    return this.httpClient.delete(url, httpOptions);
   }
 }
