@@ -1,18 +1,27 @@
 import { AuthService } from './services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   standalone: true,
-  imports: [RouterLink, RouterOutlet],
+  imports: [RouterLink, RouterOutlet, TranslateModule],
 })
 export class AppComponent implements OnInit {
   title = 'angular-product';
 
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    public translate: TranslateService
+  ) {
+    translate.addLangs(['en', 'fr']);
+    const browserLang: string = translate.getBrowserLang()!;
+    translate.use(browserLang.match(/en|fr|ar|hi|de/) ? browserLang : 'en');
+  }
 
   ngOnInit(): void {
     this.authService.loadToken();
