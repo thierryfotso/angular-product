@@ -1,0 +1,20 @@
+{
+  "app": {
+    "title": "Gestion des Produits"
+  },
+  "navbar": {
+    "title": "Gestion des Produits",
+    "home": "Accueil",
+    "products": "Produits",
+    "dropdown": {
+      "add": "Ajouter",
+      "list": "list",
+      "searchByCategory":"Rechercher par catégorie",
+      "searchByName":"Rechercher par nom",
+      "manageCategories":"Gestion des categories",
+      "login":"Login",
+      "logout":"Logout",
+      "profile":"Profile"
+    }
+  }
+}
