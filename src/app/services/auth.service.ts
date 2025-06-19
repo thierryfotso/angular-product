@@ -34,8 +34,7 @@ export class AuthService {
   }
 
   public keycloakLogin() {
-    this.isloggedIn = this.keycloak.isLoggedIn();
-    if (!this.isloggedIn) {
+    if (!this.keycloak.isLoggedIn()) {
       this.keycloak.login();
       this.loadKeycloakToken();
     }
