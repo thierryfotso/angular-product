@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { KeycloakEventType, KeycloakService } from 'keycloak-angular';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -16,17 +17,57 @@ export class AuthService {
   private jwtHelperService = new JwtHelperService();
   private jwtToken!: string;
   private loggedUser!: string;
-  private isloggedIn: Boolean = false;
+  private isloggedIn: boolean = false;
   private roles!: string[];
   public regitredUser: User = new User();
 
-  constructor(private httpClient: HttpClient, private router: Router) {}
+  constructor(
+    private httpClient: HttpClient,
+    protected readonly keycloak: KeycloakService
+  ) {}
 
   setRegistredUser(user: User) {
     this.regitredUser = user;
   }
   getRegistredUser() {
     return this.regitredUser;
+  }
+
+  public keycloakLogin() {
+    this.isloggedIn = this.keycloak.isLoggedIn();
+    if (!this.isloggedIn) {
+      this.keycloak.login();
+      this.loadKeycloakToken();
+    }
+  }
+
+  public loadKeycloakToken() {
+    if (this.keycloak.isLoggedIn()) {
+      this.keycloak.getToken().then((result) => {
+        this.jwtToken = result;
+        console.log('token:', result);
+        this.saveKeycloakToken(result);
+      });
+    }
+  }
+
+  private saveKeycloakToken(token: string) {
+    localStorage.setItem('jwt', token);
+    this.jwtToken = token;
+    this.decodeKeycloakJwt();
+  }
+
+  private decodeKeycloakJwt() {
+    if (this.jwtToken == undefined) {
+      return;
+    }
+    this.roles = this.keycloak.getUserRoles();
+    const decodedToken = this.jwtHelperService.decodeToken(this.jwtToken);
+    this.loggedUser = decodedToken.preferred_username;
+    //use this code only when loadUserProfileAtStartUp:true, configuraton is set in keycloak init configuation
+    //this.loggedUser = this.keycloak.getUsername();
+    this.isloggedIn = this.keycloak.isLoggedIn();
+    console.log('username:', this.keycloak.getUsername());
   }
 
   public login(user: User) {
@@ -87,7 +128,7 @@ export class AuthService {
     this.jwtToken = undefined!;
     localStorage.removeItem('loggedUser');
     localStorage.removeItem('jwt');
-    this.router.navigate(['/login']);
+    this.keycloak.logout();
   }
 
   register(user: User) {

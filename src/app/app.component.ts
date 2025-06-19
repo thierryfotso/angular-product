@@ -1,21 +1,23 @@
+import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   standalone: true,
-  imports: [RouterLink, RouterOutlet, TranslateModule],
+  imports: [RouterLink, RouterOutlet, TranslateModule, CommonModule],
 })
 export class AppComponent implements OnInit {
   title = 'angular-product';
+  authenticated = false;
 
   constructor(
     public authService: AuthService,
-    private router: Router,
     public translate: TranslateService
   ) {
     translate.addLangs(['en', 'fr']);
@@ -23,14 +25,20 @@ export class AppComponent implements OnInit {
     translate.use(browserLang.match(/en|fr|ar|hi|de/) ? browserLang : 'en');
   }
 
-  ngOnInit(): void {
-    this.authService.loadToken();
-    if (this.authService.getToken() == null || this.authService.isExpired()) {
-      this.router.navigate(['/login']);
-    }
+  ngOnInit() {
+    //this.authService.keycloakLogin();
+    this.authService.loadKeycloakToken();
   }
 
   onLogout() {
     this.authService.logout();
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
+  login() {
+    this.authService.keycloakLogin();
   }
 }

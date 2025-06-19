@@ -10,9 +10,11 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { productGuard } from './product.guard';
 import { RegisterComponent } from './register/register.component';
 import { VerifEmailComponent } from './verif-email/verif-email.component';
+import { AuthGuard } from './auth.guard';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 export const routes: Routes = [
-  { path: 'products', component: ProductsComponent },
+  { path: 'products', component: ProductsComponent,  canActivate: [AuthGuard]  },
   {
     path: 'add-product',
     component: AddProductComponent,
@@ -24,7 +26,8 @@ export const routes: Routes = [
   { path: 'listCategory', component: ListCategoryComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'app-forbidden', component: ForbiddenComponent },
+  { path: 'forbidden', component: ForbiddenComponent },
   { path: 'verifEmail', component: VerifEmailComponent },
-  { path: '', redirectTo: 'products', pathMatch: 'full' },
+  { path: 'profile', component: UserProfileComponent },
+  { path: '', redirectTo: 'products', pathMatch: 'full'},
 ];
