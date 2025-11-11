@@ -3,11 +3,10 @@ import { User, UserProfile } from '../model/user.model';
 import { KeycloakService } from 'keycloak-angular';
 
 @Component({
-  selector: 'app-user-profile',
-  standalone: true,
-  imports: [],
-  templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.css',
+    selector: 'app-user-profile',
+    imports: [],
+    templateUrl: './user-profile.component.html',
+    styleUrl: './user-profile.component.css'
 })
 export class UserProfileComponent implements OnInit {
   user: UserProfile | undefined;

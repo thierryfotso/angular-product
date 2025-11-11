@@ -7,11 +7,10 @@ import { RouterLink } from '@angular/router';
 import { Image } from '../model/image.model';
 
 @Component({
-  selector: 'app-products',
-  standalone: true,
-  imports: [CommonModule, RouterLink],
-  templateUrl: './products.component.html',
-  styleUrl: './products.component.css',
+    selector: 'app-products',
+    imports: [CommonModule, RouterLink],
+    templateUrl: './products.component.html',
+    styleUrl: './products.component.css'
 })
 export class ProductsComponent implements OnInit {
   products: Product[] = [];

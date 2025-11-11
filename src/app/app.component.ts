@@ -6,11 +6,10 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
-  standalone: true,
-  imports: [RouterLink, RouterOutlet, TranslateModule, CommonModule],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css',
+    imports: [RouterLink, RouterOutlet, TranslateModule, CommonModule]
 })
 export class AppComponent implements OnInit {
   title = 'angular-product';

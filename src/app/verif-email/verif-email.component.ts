@@ -5,11 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Component({
-  selector: 'app-verif-email',
-  standalone: true,
-  imports: [FormsModule],
-  templateUrl: './verif-email.component.html',
-  styleUrl: './verif-email.component.css',
+    selector: 'app-verif-email',
+    imports: [FormsModule],
+    templateUrl: './verif-email.component.html',
+    styleUrl: './verif-email.component.css'
 })
 export class VerifEmailComponent implements OnInit {
 

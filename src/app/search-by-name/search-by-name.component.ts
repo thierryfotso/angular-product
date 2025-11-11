@@ -7,11 +7,10 @@ import { FormsModule } from '@angular/forms';
 import { SearchFilterPipe } from '../search-filter.pipe';
 
 @Component({
-  selector: 'app-search-by-name',
-  standalone: true,
-  imports: [CommonModule, FormsModule, SearchFilterPipe] ,
-  templateUrl: './search-by-name.component.html',
-  styleUrl: './search-by-name.component.css',
+    selector: 'app-search-by-name',
+    imports: [CommonModule, FormsModule, SearchFilterPipe],
+    templateUrl: './search-by-name.component.html',
+    styleUrl: './search-by-name.component.css'
 })
 export class SearchByNameComponent {
   products!: Product[];

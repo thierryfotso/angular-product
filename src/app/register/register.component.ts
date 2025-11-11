@@ -6,11 +6,10 @@ import { User } from '../model/user.model';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [FormsModule, RouterLink, ReactiveFormsModule],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
+    selector: 'app-register',
+    imports: [FormsModule, RouterLink, ReactiveFormsModule],
+    templateUrl: './register.component.html',
+    styleUrl: './register.component.css'
 })
 export class RegisterComponent implements OnInit {
   public user = new User();

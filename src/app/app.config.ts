@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection, inject, provideAppInitializer } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -21,12 +21,10 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideToastr(),
     importProvidersFrom(TranslateModule.forRoot(provideTranslation())),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
-      multi: true,
-      deps: [KeycloakService],
-    },
+    provideAppInitializer(() => {
+        const initializerFn = (initializeKeycloak)(inject(KeycloakService));
+        return initializerFn();
+      }),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: KeycloakBearerInterceptor,
