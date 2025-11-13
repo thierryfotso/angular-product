@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { AuthService } from './services/auth.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
@@ -9,7 +9,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [RouterLink, RouterOutlet, TranslateModule, CommonModule]
+    imports: [RouterLink, RouterOutlet, TranslateModule]
 })
 export class AppComponent implements OnInit {
   title = 'angular-product';

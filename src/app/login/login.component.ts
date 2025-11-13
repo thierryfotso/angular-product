@@ -2,22 +2,22 @@ import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../model/user.model';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-login',
-    imports: [CommonModule, FormsModule, RouterLink],
-    templateUrl: './login.component.html',
-    styleUrl: './login.component.css'
+  selector: 'app-login',
+  imports: [FormsModule, RouterLink],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit {
   user = new User();
   errorMessage?: string;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onLogin(): void {
     this.authService.login(this.user).subscribe({
