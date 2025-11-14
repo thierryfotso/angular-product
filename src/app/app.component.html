@@ -46,13 +46,13 @@
         </a>
         }
         <div class="dropdown-menu">
+          @if (authService.islogged()) {
+          <a class="dropdown-item" routerLink="/profile">{{ "navbar.dropdown.profile"| translate }}</a>
+          }
           @if (!authService.islogged()) {
           <a class="dropdown-item" (click)="login()">{{ "navbar.dropdown.login"| translate }}</a>
           }@else{
           <a class="dropdown-item" (click)="logout()">{{ "navbar.dropdown.logout"| translate }}</a>
-          }
-          @if (authService.islogged()) {
-          <a class="dropdown-item" routerLink="/profile">{{ "navbar.dropdown.profile"| translate }}</a>
           }
         </div>
       </li>

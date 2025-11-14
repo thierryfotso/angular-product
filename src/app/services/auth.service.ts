@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { User } from '../model/user.model';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { KeycloakEventType, KeycloakService } from 'keycloak-angular';
+import Keycloak from 'keycloak-js';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -22,9 +22,8 @@ export class AuthService {
   public regitredUser: User = new User();
 
   constructor(
-    private httpClient: HttpClient,
-    protected readonly keycloak: KeycloakService
-  ) {}
+    private httpClient: HttpClient, private readonly keycloak: Keycloak
+  ) { }
 
   setRegistredUser(user: User) {
     this.regitredUser = user;
@@ -34,39 +33,27 @@ export class AuthService {
   }
 
   public keycloakLogin() {
-    if (!this.keycloak.isLoggedIn()) {
-      this.keycloak.login();
-      this.loadKeycloakToken();
-    }
-  }
-
-  public loadKeycloakToken() {
-    if (this.keycloak.isLoggedIn()) {
-      this.keycloak.getToken().then((result) => {
-        this.jwtToken = result;
-        console.log('token:', result);
-        this.saveKeycloakToken(result);
+    if (!this.keycloak.authenticated) {
+      this.keycloak.login().then((result) => {
+        console.log('after login--------------:',result);
+        this.decodeKeycloakJwt();
       });
     }
   }
 
-  private saveKeycloakToken(token: string) {
-    localStorage.setItem('jwt', token);
-    this.jwtToken = token;
-    this.decodeKeycloakJwt();
-  }
-
-  private decodeKeycloakJwt() {
-    if (this.jwtToken == undefined) {
+  public decodeKeycloakJwt() {
+    if (!this.keycloak.authenticated) {
       return;
     }
-    this.roles = this.keycloak.getUserRoles();
+    this.isloggedIn = this.keycloak.authenticated;
+    this.jwtToken = this.keycloak.token!;
+    localStorage.setItem('jwt', this.jwtToken);
     const decodedToken = this.jwtHelperService.decodeToken(this.jwtToken);
+    this.roles = decodedToken.realm_access?.roles;
     this.loggedUser = decodedToken.preferred_username;
-    //use this code only when loadUserProfileAtStartUp:true, configuraton is set in keycloak init configuation
-    //this.loggedUser = this.keycloak.getUsername();
-    this.isloggedIn = this.keycloak.isLoggedIn();
-    console.log('username:', this.keycloak.getUsername());
+    this.keycloak.loadUserProfile().then((userProfile) => {
+      this.loggedUser = userProfile.username!;
+    });
   }
 
   public login(user: User) {
@@ -78,12 +65,7 @@ export class AuthService {
   public saveToken(token: string) {
     localStorage.setItem('jwt', token);
     this.jwtToken = token;
-    this.isloggedIn = true;
-    this.decodeJwt();
-  }
-
-  loadToken() {
-    this.jwtToken = localStorage.getItem('jwt')!;
+    this.isloggedIn = this.keycloak?.authenticated;
     this.decodeJwt();
   }
 
@@ -114,10 +96,7 @@ export class AuthService {
   }
 
   public isAdmin(): Boolean {
-    if (!this.roles) {
-      return false;
-    }
-    return this.roles.indexOf('ADMIN') >= 0;
+    return this.keycloak.hasRealmRole('ADMIN');
   }
 
   public logout() {

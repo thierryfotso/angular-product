@@ -1,9 +1,16 @@
 
 import { AuthService } from './services/auth.service';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-
+import Keycloak, { KeycloakProfile } from 'keycloak-js';
+import {
+HasRolesDirective,
+KEYCLOAK_EVENT_SIGNAL,
+KeycloakEventType,
+typeEventArgs,
+ReadyArgs
+}  from 'keycloak-angular';
 
 @Component({
     selector: 'app-root',
@@ -14,6 +21,10 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 export class AppComponent implements OnInit {
   title = 'angular-product';
   authenticated = false;
+  keycloakStatus: string | undefined;
+  public profile? : KeycloakProfile;
+  private readonly keycloak = inject(Keycloak);
+  private readonly keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
 
   constructor(
     public authService: AuthService,
@@ -21,16 +32,25 @@ export class AppComponent implements OnInit {
   ) {
     translate.addLangs(['en', 'fr']);
     const browserLang: string = translate.getBrowserLang()!;
-    translate.use(browserLang.match(/en|fr|ar|hi|de/) ? browserLang : 'en');
+    translate.use(browserLang.match(/en|fr|ar|de/) ? browserLang : 'en');
+    effect(() => {
+      const keycloakEvent = this.keycloakSignal();
+      this.keycloakStatus = keycloakEvent.type;
+      if (keycloakEvent.type === KeycloakEventType.Ready) {
+        this.authenticated = typeEventArgs<ReadyArgs>(keycloakEvent.args);
+      }
+      if (keycloakEvent.type === KeycloakEventType.AuthLogout) {
+        this.authenticated = false;
+      }
+    });
   }
 
   ngOnInit() {
-    //this.authService.keycloakLogin();
-    this.authService.loadKeycloakToken();
+    this.authService.decodeKeycloakJwt();
   }
 
   onLogout() {
-    this.authService.logout();
+    this.keycloak.logout();
   }
 
   logout() {

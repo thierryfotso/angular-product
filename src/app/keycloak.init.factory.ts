@@ -1,35 +1,38 @@
-import { KeycloakEventType, KeycloakService } from 'keycloak-angular';
+import { AutoRefreshTokenService, createInterceptorCondition, INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG, IncludeBearerTokenCondition, KeycloakEventType, KeycloakService, provideKeycloak, UserActivityService, withAutoRefreshToken } from 'keycloak-angular';
 import { environment } from '../environments/environment';
 
-export function initializeKeycloak(keycloak: KeycloakService) {
+const localhostCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
+  urlPattern: /^(http:\/\/localhost:8080)(\/.*)?$/i
+});
 
-  keycloak.keycloakEvents$.subscribe({
-    next(event) {
-      if (event.type == KeycloakEventType.OnTokenExpired) {
-        //keycloak.updateToken(20);
-      }
+export const initializeKeycloak = () =>
+
+  provideKeycloak({
+    config: {
+      url: environment.keycloak.url,
+      realm: environment.keycloak.realm,
+      clientId: environment.keycloak.clientId
     },
-  });
+    initOptions: {
+      //onLoad: 'login-required', //'check-sso',
 
-  return () =>
-    keycloak.init({
-      config: {
-        url: environment.keycloak.url,
-        realm: environment.keycloak.realm,
-        clientId: environment.keycloak.clientId,
-      },
-      loadUserProfileAtStartUp: true,
-      initOptions: {
-        onLoad: 'login-required', // 'login-required' , 'check-sso'
-        /*
-        onLoad: 'check-sso', // 'login-required' , 'check-sso'
-        silentCheckSsoRedirectUri:
-          window.location.origin + '/assets/silent-check-sso.html',
-        */
-          //checkLoginIframe: false
-      },
-      enableBearerInterceptor: true,
-      bearerPrefix: 'Bearer',
-      bearerExcludedUrls: ['/error', '/not-found', '/assets'],
-    });
-}
+      onLoad: 'check-sso',
+      //silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
+      silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+      redirectUri: window.location.origin + '/'
+    },
+    features: [
+      withAutoRefreshToken({
+        onInactivityTimeout: 'logout',
+        sessionTimeout: 60000,
+      })
+    ],
+    providers: [
+      AutoRefreshTokenService,
+      UserActivityService,
+      {
+        provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
+        useValue: [localhostCondition]
+      }
+    ]
+  });

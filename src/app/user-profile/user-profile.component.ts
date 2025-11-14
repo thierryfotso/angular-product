@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User, UserProfile } from '../model/user.model';
-import { KeycloakService } from 'keycloak-angular';
+import Keycloak from 'keycloak-js';
 
 @Component({
     selector: 'app-user-profile',
@@ -11,10 +11,10 @@ import { KeycloakService } from 'keycloak-angular';
 export class UserProfileComponent implements OnInit {
   user: UserProfile | undefined;
 
-  constructor(private readonly keycloak: KeycloakService) {}
+  constructor(private readonly keycloak: Keycloak) {}
 
   async ngOnInit() {
-    if (this.keycloak?.isLoggedIn()) {
+    if (this.keycloak?.authenticated) {
       const profile = await this.keycloak.loadUserProfile();
       this.user = {
         name: `${profile?.firstName} ${profile.lastName}`!,

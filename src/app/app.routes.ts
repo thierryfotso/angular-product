@@ -10,15 +10,14 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { productGuard } from './product.guard';
 import { RegisterComponent } from './register/register.component';
 import { VerifEmailComponent } from './verif-email/verif-email.component';
-import { AuthGuard } from './auth.guard';
+import { canActivateAuthRole } from './auth.guard';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
 export const routes: Routes = [
-  { path: 'products', component: ProductsComponent,  canActivate: [AuthGuard]  },
+  { path: 'products', component: ProductsComponent },
   {
     path: 'add-product',
-    component: AddProductComponent,
-    canActivate: [productGuard],
+    component: AddProductComponent, canActivate: [canActivateAuthRole], data: { role: 'ADMIN' }
   },
   { path: 'updateProduct/:id', component: UpdateProductComponent },
   { path: 'searchProductByCategory', component: SearchByCategoryComponent },
