@@ -12,10 +12,7 @@
         {{'navbar.products' | translate }}
       </a>
       <div class="dropdown-menu">
-        @if(authService.isAdmin())
-        {
-        <a class="dropdown-item" routerLink="/add-product">{{ "navbar.dropdown.add"| translate }}</a>
-        }
+        <a class="dropdown-item" routerLink="/add-product" *kaHasRoles="['ADMIN']; checkRealm:true; ">{{ "navbar.dropdown.add"| translate }}</a>
         <a class="dropdown-item" routerLink="/products">Lister</a>
         <a class="dropdown-item" routerLink="/searchProductByCategory">{{ "navbar.dropdown.searchByCategory"|
           translate }}</a>

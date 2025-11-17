@@ -9,14 +9,14 @@ HasRolesDirective,
 KEYCLOAK_EVENT_SIGNAL,
 KeycloakEventType,
 typeEventArgs,
-ReadyArgs
+ReadyArgs,
 }  from 'keycloak-angular';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [RouterLink, RouterOutlet, TranslateModule]
+    imports: [RouterLink, RouterOutlet, TranslateModule, HasRolesDirective]
 })
 export class AppComponent implements OnInit {
   title = 'angular-product';
