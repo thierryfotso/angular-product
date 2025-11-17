@@ -8,11 +8,10 @@ import { Category } from '../model/category.model';
 import { Image } from '../model/image.model';
 
 @Component({
-  selector: 'app-update-product',
-  standalone: true,
-  imports: [FormsModule, CommonModule],
-  templateUrl: './update-product.component.html',
-  styleUrl: './update-product.component.css',
+    selector: 'app-update-product',
+    imports: [FormsModule, CommonModule],
+    templateUrl: './update-product.component.html',
+    styleUrl: './update-product.component.css'
 })
 export class UpdateProductComponent implements OnInit {
   currentProduct = new Product();

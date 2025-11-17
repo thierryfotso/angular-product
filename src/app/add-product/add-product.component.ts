@@ -7,11 +7,10 @@ import { Router } from '@angular/router';
 import { Image } from '../model/image.model';
 
 @Component({
-  selector: 'app-add-product',
-  standalone: true,
-  imports: [FormsModule],
-  templateUrl: './add-product.component.html',
-  styleUrl: './add-product.component.css',
+    selector: 'app-add-product',
+    imports: [FormsModule],
+    templateUrl: './add-product.component.html',
+    styleUrl: './add-product.component.css'
 })
 export class AddProductComponent implements OnInit {
   newProduct = new Product();

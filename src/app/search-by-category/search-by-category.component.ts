@@ -6,11 +6,10 @@ import { Category } from '../model/category.model';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-search-by-category',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './search-by-category.component.html',
-  styleUrl: './search-by-category.component.css',
+    selector: 'app-search-by-category',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './search-by-category.component.html',
+    styleUrl: './search-by-category.component.css'
 })
 export class SearchByCategoryComponent {
   products: Product[] = [];

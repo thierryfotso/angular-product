@@ -3,11 +3,10 @@ import { Category } from '../model/category.model';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-update-category',
-  standalone: true,
-  imports: [FormsModule],
-  templateUrl: './update-category.component.html',
-  styleUrl: './update-category.component.css',
+    selector: 'app-update-category',
+    imports: [FormsModule],
+    templateUrl: './update-category.component.html',
+    styleUrl: './update-category.component.css'
 })
 export class UpdateCategoryComponent implements OnInit {
   @Input()
