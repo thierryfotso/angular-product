@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Category } from '../model/category.model';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
     selector: 'app-update-category',
@@ -18,7 +19,7 @@ export class UpdateCategoryComponent implements OnInit {
   @Output()
   categoryUpdated = new EventEmitter<Category>();
 
-  constructor() {}
+  constructor(public authService: AuthService) {}
 
   ngOnInit(): void {}
 

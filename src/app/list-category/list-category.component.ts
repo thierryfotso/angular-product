@@ -2,6 +2,7 @@ import { Category } from './../model/category.model';
 import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../services/products.service';
 import { UpdateCategoryComponent } from '../update-category/update-category.component';
+import { AuthService } from '../services/auth.service';
 
 @Component({
     selector: 'app-list-category',
@@ -14,7 +15,7 @@ export class ListCategoryComponent implements OnInit {
   updateCategory: Category = { id: null, name: '' };
   isAdd = true;
 
-  constructor(private productService: ProductsService) {}
+  constructor(private productService: ProductsService, public authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadCategory();
@@ -28,9 +29,16 @@ export class ListCategoryComponent implements OnInit {
 
   addCategory(category: Category) {
     this.isAdd = true;
-    this.productService.addCategory(category).subscribe((result) => {
-      this.loadCategory();
-    });
+    this.productService.addCategory(category).subscribe({
+      next: () => {
+        this.loadCategory();
+      },
+      error: (error: any) => {
+         this.loadCategory();
+        console.log('Error while adding/updating category:', error);
+      }
+    }
+    );
   }
 
   updateCat(category: Category) {
