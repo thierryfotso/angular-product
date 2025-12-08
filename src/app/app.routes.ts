@@ -7,7 +7,7 @@ import { SearchByNameComponent } from './search-by-name/search-by-name.component
 import { ListCategoryComponent } from './list-category/list-category.component';
 import { LoginComponent } from './login/login.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
-import { productGuard } from './product.guard';
+import { productGuard } from './guards/product.guard';
 import { RegisterComponent } from './register/register.component';
 import { VerifEmailComponent } from './verif-email/verif-email.component';
 

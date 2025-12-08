@@ -4,7 +4,7 @@ import { Category } from '../model/category.model';
 import { ProductsService } from '../services/products.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SearchFilterPipe } from '../search-filter.pipe';
+import { SearchFilterPipe } from '../pipes/search-filter.pipe';
 
 @Component({
     selector: 'app-search-by-name',
