@@ -2,6 +2,7 @@
   "app": {
     "title": "Gestion des Produits"
   },
+  "paginator.itemsPerPage": "Nombre d'éléments par page",
   "navbar": {
     "title": "Gestion des Produits",
     "home": "Accueil",

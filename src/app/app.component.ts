@@ -17,9 +17,6 @@ export class AppComponent implements OnInit {
     private router: Router,
     public translate: TranslateService
   ) {
-    translate.addLangs(['en', 'fr']);
-    const browserLang: string = translate.getBrowserLang()!;
-    translate.use(browserLang.match(/en|fr|ar|hi|de/) ? browserLang : 'en');
   }
 
   ngOnInit(): void {
