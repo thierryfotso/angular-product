@@ -9,12 +9,13 @@ import { provideToastr } from 'ngx-toastr';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { provideTranslation } from './translate-loader.config';
 import { lastValueFrom } from 'rxjs';
+import { loaderInterceptor } from './interceptors/loader.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([tokenInterceptor])),
+    provideHttpClient(withInterceptors([tokenInterceptor, loaderInterceptor])),
     provideAnimations(),
     provideToastr(),
     importProvidersFrom(TranslateModule.forRoot(provideTranslation())),

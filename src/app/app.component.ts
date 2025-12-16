@@ -2,12 +2,13 @@ import { AuthService } from './services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LoaderComponent } from "./loader/loader.component";
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [RouterLink, RouterOutlet, TranslateModule]
+    imports: [RouterLink, RouterOutlet, TranslateModule, LoaderComponent]
 })
 export class AppComponent implements OnInit {
   title = 'angular-product';

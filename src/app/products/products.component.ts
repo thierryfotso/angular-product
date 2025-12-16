@@ -9,13 +9,12 @@ import { MatTable, MatHeaderCellDef, MatCellDef, MatHeaderRowDef, MatRowDef, Mat
 import {MatSort, MatSortModule, Sort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 
 @Component({
     selector: 'app-products',
-    imports: [CommonModule, MatTableModule, MatSortModule, RouterLink, MatTable, MatHeaderCellDef, MatCellDef, MatHeaderRowDef, MatRowDef, MatPaginator, MatProgressSpinner, MatFormField, MatLabel, MatInput],
+    imports: [CommonModule, MatTableModule, MatSortModule, RouterLink, MatTable, MatHeaderCellDef, MatCellDef, MatHeaderRowDef, MatRowDef, MatPaginator, MatFormField, MatLabel, MatInput],
     templateUrl: './products.component.html',
     styleUrl: './products.component.css'
 })
@@ -23,7 +22,6 @@ export class ProductsComponent implements OnInit, AfterViewInit {
   productsDisplayedColumns: string[] = ['name', 'price', 'creationDate', 'category', 'image'];
   adminProductsDisplayedColumns: string[] = [...this.productsDisplayedColumns, 'delete', 'update'];
   productDataSource = new MatTableDataSource<Product>();
-  loading: boolean = false;
 
    @ViewChild(MatPaginator)
    paginator!: MatPaginator;
@@ -59,11 +57,17 @@ export class ProductsComponent implements OnInit, AfterViewInit {
       return Boolean(matches);
     };
 
-    //this.productDataSource.sort
+    this.productDataSource.sortingDataAccessor = (item: Product, property) => {
+      switch (property) {
+        //case 'category': return item.category ? item.category?.name : '';
+        case 'category': return item.category?.name;
+        default:
+          return (item as any)[property];
+      };
+    }
   }
 
   applyFilter(event: Event) {
-    console.log('applyFilter called:', this.productDataSource);
     const filterValue = (event.target as HTMLInputElement).value;
     this.productDataSource.filter = filterValue.trim().toLowerCase();
     if (this.productDataSource.paginator) {
@@ -72,7 +76,6 @@ export class ProductsComponent implements OnInit, AfterViewInit {
   }
   
   loadProduct() {
-    this.loading = true;
     this.productService.getProducts().subscribe((result) => {
       result.forEach((prod) => {
         this.productService.loadImage(prod.image?.id).subscribe((img: Image) => {
@@ -80,7 +83,6 @@ export class ProductsComponent implements OnInit, AfterViewInit {
         });
       });
       this.productDataSource.data = result;
-      this.loading = false;
     });
   }
 
