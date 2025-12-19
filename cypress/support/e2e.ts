@@ -14,4 +14,19 @@
 // ***********************************************************
 
 // When a command from ./commands is ready to use, import with `import './commands'` syntax
-// import './commands';
+//import './commands';
+
+declare namespace Cypress {
+    interface Chainable<Subject = any> {
+        login(username: string, password: string): typeof login;
+    }
+}
+
+function login(username: string, password: string): void {
+    cy.visit('/login');
+    cy.get('input[type="text"]').type(username);
+    cy.get('input[type="password"]').type(password);
+    cy.get('button[type="button"]').click();
+}
+
+Cypress.Commands.add("login", login);
